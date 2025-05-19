@@ -21,6 +21,9 @@ const loginUser = async (req, res) => {
       nombreCompleto: user.nombreCompleto,
       email: user.username, 
       role: user.role,
+      cedula: user.cedula,
+      telefono: user.telefono,
+      blocked: user.blocked,
       token,
     });
   } catch (error) {
@@ -127,12 +130,13 @@ const registerUser = async (req, res) => {
 
         // Crear nuevo usuario
         const user = new User({
-            username : email,   
+            username: email,   
             password,
             nombreCompleto,
             cedula,
             telefono,   
-            role: 'usuario'
+            role: 'usuario',
+            email: email
         });
 
         await user.save();
