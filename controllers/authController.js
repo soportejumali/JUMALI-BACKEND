@@ -24,6 +24,7 @@ const loginUser = async (req, res) => {
       cedula: user.cedula,
       telefono: user.telefono,
       blocked: user.blocked,
+      id: user._id,
       token,
     });
   } catch (error) {

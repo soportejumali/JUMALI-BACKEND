@@ -116,8 +116,7 @@ exports.createLoan = async (req, res) => {
 
 exports.getUserLoans = async (req, res) => {
   try {
-    console.log(req);
-    const userId = req.user._id;
+    const userId = req.params.userId;
     const loans = await Loan.find({ usuario: userId })
       .populate([
         { path: 'libro', select: 'titulo autor foto' },
