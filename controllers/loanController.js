@@ -6,8 +6,10 @@ const Fine = require('../models/Fine');
 
 exports.createLoan = async (req, res) => {
   try {
-    const { libro } = req.body;
-    const userId = req.user._id;
+    const { libroId } = req.body;
+    const userId = req.body.usuarioId;
+
+    const libro = await Book.findById(libroId);
 
     if (!libro) {
       return res.status(400).json({ message: 'El ID del libro es requerido' });
@@ -114,6 +116,7 @@ exports.createLoan = async (req, res) => {
 
 exports.getUserLoans = async (req, res) => {
   try {
+    console.log(req);
     const userId = req.user._id;
     const loans = await Loan.find({ usuario: userId })
       .populate([
@@ -215,6 +218,25 @@ exports.returnBook = async (req, res) => {
     console.error('Error al devolver libro:', error);
     res.status(500).json({ 
       message: 'Error al devolver el libro', 
+      error: error.message 
+    });
+  }
+};
+
+exports.getAllLoans = async (req, res) => {
+  try {
+    const loans = await Loan.find()
+      .populate([
+        { path: 'libro', select: 'titulo autor foto' },
+        { path: 'copia', select: 'codigo' },
+        { path: 'usuario', select: 'nombreCompleto' }
+      ]);
+
+    res.json(loans);
+  } catch (error) {
+    console.error('Error al obtener todos los préstamos:', error);
+    res.status(500).json({ 
+      message: 'Error al obtener todos los préstamos', 
       error: error.message 
     });
   }
