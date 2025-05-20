@@ -77,7 +77,7 @@ exports.createLoan = async (req, res) => {
     // Calcular fecha de devolución (15 días desde hoy)
     const fechaPrestamo = new Date();
     const fechaDevolucion = new Date(fechaPrestamo);
-    fechaDevolucion.setDate(fechaDevolucion.getDate() + 15);
+    fechaDevolucion.setDate(fechaDevolucion.getDate() + 5);
 
     // Crear el préstamo
     const loan = new Loan({
